@@ -1,0 +1,24 @@
+{
+  "name": "tauriwebview",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "prebuild": "node scripts/copy-contents.js",
+    "predev": "node scripts/copy-contents.js",
+    "dev": "cd src-tauri && tauri dev",
+    "build": "cd src-tauri && tauri build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
+    "@tauri-apps/plugin-opener": "^2.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}

@@ -1,0 +1,3 @@
+[build]
+# Set the target directory for build artifacts
+target-dir = "../../build"
