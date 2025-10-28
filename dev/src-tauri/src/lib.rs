@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use std::thread;
 use tiny_http::{Server, Request, Response, Header};
 use std::fs;
+use tauri::Manager;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -35,6 +36,13 @@ fn load_config() -> std::collections::HashMap<String, String> {
         }
         if let Some(resizable) = config.get("window", "resizable") {
             settings.insert("resizable".to_string(), resizable);
+        }
+        // Load app settings
+        if let Some(name) = config.get("app", "name") {
+            settings.insert("name".to_string(), name);
+        }
+        if let Some(version) = config.get("app", "version") {
+            settings.insert("version".to_string(), version);
         }
         if let Some(port) = config.get("app", "port") {
             settings.insert("port".to_string(), port);
@@ -146,6 +154,11 @@ pub fn run() {
         .and_then(|p| p.parse().ok())
         .unwrap_or(8000);
     
+    // 앱 이름과 버전 읽기
+    let app_name = config.get("name").cloned().unwrap_or_else(|| "TauriWebview".to_string());
+    let app_version = config.get("version").cloned().unwrap_or_else(|| "0.1.0".to_string());
+    let window_title = format!("{} v{}", app_name, app_version);
+    
     // exe 위치의 html 폴더 결정
     let exe_dir = std::env::current_exe()
         .ok()
@@ -159,7 +172,33 @@ pub fn run() {
     // Tauri 앱 시작
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .invoke_handler(tauri::generate_handler![greet])
+        .setup(move |app| {
+            use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, ShortcutState};
+            
+            // 창 제목 설정
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.set_title(&window_title);
+                
+                // F11 전역 단축키 등록
+                let window_clone = window.clone();
+                let shortcut: Shortcut = "F11".parse().unwrap();
+                
+                app.handle().global_shortcut().on_shortcut(shortcut, move |_app, _shortcut, event| {
+                    if event.state == ShortcutState::Pressed {
+                        if let Ok(is_fullscreen) = window_clone.is_fullscreen() {
+                            let _ = window_clone.set_fullscreen(!is_fullscreen);
+                        }
+                    }
+                });
+                
+                if let Err(e) = app.handle().global_shortcut().register(shortcut) {
+                    eprintln!("Failed to register F11 shortcut: {}", e);
+                }
+            }
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

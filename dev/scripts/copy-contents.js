@@ -5,8 +5,8 @@ import { execSync } from 'child_process';
 // dev 폴더 내에서 실행되므로, 상대 경로로 설정
 const srcHtmlDir = './src-tauri/html';
 const srcReadmeDir = './readme';
-const distHtmlDir = '../../build/dist/html';
-const distReadmeDir = '../../build/dist';
+const distHtmlDir = '../build/dist/html';
+const distReadmeDir = '../build/dist';
 
 // 디렉토리 생성 함수
 function ensureDir(dirPath) {
