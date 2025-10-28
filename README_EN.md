@@ -4,20 +4,24 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-siriz%2Ftauri__webview-black?logo=github)](https://github.com/siriz/tauri_webview)
 
-A lightweight desktop application using Tauri that displays HTML/CSS/JS files from the `./contents/` folder as a desktop application.
+A lightweight desktop application using Tauri that displays HTML/CSS/JS files from the `html/` folder through an embedded web server as a desktop application.
 
 ### Key Features
 
 - **No Browser Required**: Run HTML files directly as desktop applications without launching a browser in the local environment
 - **No Additional Installation Needed**: Uses Windows built-in WebView, so it's lightweight and runs immediately without extra software installations
 - **Fast Execution**: Provides fast and efficient performance with minimal resource consumption
+- **Dynamic File Loading**: Modify HTML/CSS/JS files and see changes immediately with browser refresh (F5) without rebuilding the executable
+- **User Customization**: End users can modify files in the `html/` folder after deployment
 
 **GitHub Repository:** https://github.com/siriz/tauri_webview
 
 ## Features
 
 - **Lightweight Executable**: All necessary resources are included in the package, allowing it to run without external internet connection
-- **Simple Configuration**: Easily customize window size, position, and other settings using the `config.ini` file
+- **Embedded Web Server**: Dynamically serves files through embedded HTTP server (tiny_http) implemented in Rust
+- **Real-time Editable**: Modify files in `html/` folder while exe is running and see changes immediately with browser refresh (F5)
+- **Simple Configuration**: Easily customize window size, port, and other settings using the `config.ini` file
 - **Native Performance**: Fast performance and security through Rust backend
 - **Extensible**: Simple structure makes it easy to add new features
 
@@ -60,55 +64,45 @@ TauriWebview/
 ├── dev/                       # All development source code
 │   ├── src-tauri/            # Rust backend source
 │   │   ├── src/
-│   │   │   ├── main.rs
-│   │   │   └── lib.rs
-│   │   ├── Cargo.toml
-│   │   ├── tauri.conf.json
+│   │   │   ├── main.rs       # Main entry point
+│   │   │   └── lib.rs        # Embedded web server and core logic
+│   │   ├── html/             # Web content for development (source)
+│   │   │   ├── index.html
+│   │   │   ├── styles.css
+│   │   │   └── main.js
+│   │   ├── Cargo.toml        # Rust dependencies (includes tiny_http)
+│   │   ├── tauri.conf.json   # Tauri config (URL: http://localhost:8000)
+│   │   ├── build.rs          # Build script (icon embedding)
 │   │   ├── .cargo/
 │   │   │   └── config.toml   # Build output path configuration
 │   │   └── icons/
+│   │       └── icon.ico      # Multi-size icon
 │   ├── scripts/              # Build scripts
-│   │   └── copy-contents.js  # Content copying script
+│   │   ├── copy-contents.js  # HTML file copy script
+│   │   └── create-dist.js    # Distribution package creation script
 │   ├── node_modules/         # npm dependencies
-│   ├── package.json
+│   ├── package.json          # npm scripts and dependencies
 │   ├── package-lock.json
 │   └── tsconfig.json
-├── contents/                 # Web content (development)
-│   ├── index.html
-│   ├── styles.css
-│   ├── main.js
-│   ├── icon.ico              # Application icon
-│   ├── README.txt            # Quick start guide
-│   ├── README_EN.txt         # English manual
-│   ├── README_JA.txt         # Japanese manual
-│   └── README_KO.txt         # Korean manual
 ├── build/                    # Build artifacts (auto-generated)
 │   ├── debug/               # Debug build
-│   ├── release/             # Release exe
-│   │   └── tauriwebview.exe
+│   ├── release/             # Release build
+│   │   └── tauriwebview.exe (9.8MB)
 │   └── dist/                # Final distribution package
 │       ├── tauriwebview.exe
-│       ├── config.ini
-│       ├── icon.ico
-│       ├── README.txt
-│       ├── README_EN.txt
-│       ├── README_JA.txt
-│       ├── README_KO.txt
-│       └── contents/
-│           ├── index.html
-│           ├── styles.css
-│           ├── main.js
-│           ├── icon.ico
-│           ├── README.txt
-│           ├── README_EN.txt
-│           ├── README_JA.txt
-│           └── README_KO.txt
-├── config.ini               # Application settings file
+│       ├── config.ini       # User configuration file
+│       ├── html/            # User-editable web content
+│       │   ├── index.html
+│       │   ├── styles.css
+│       │   └── main.js
+│       ├── README.md
+│       ├── README_EN.md
+│       └── README_JA.md
+├── config.ini               # Application settings file (development)
 ├── .gitignore
 ├── .vscode/
 │   ├── guide.md            # Development guidelines and rules
 │   └── feature.md          # Feature specifications
-├── LICENSE                  # License file
 └── README.md
 ```
 
@@ -118,24 +112,26 @@ After building, the distribution package is generated in the `build/dist/` folde
 
 ```
 build/dist/
-├── tauriwebview.exe       # Executable file (8.6MB)
-├── config.ini             # Configuration file
-├── icon.ico               # Application icon
-├── README.txt             # Quick start guide
-├── README_EN.txt          # English manual
-├── README_JA.txt          # Japanese manual
-├── README_KO.txt          # Korean manual
-└── contents/              # Web content
+├── tauriwebview.exe       # Executable file (9.8MB, includes embedded web server)
+├── config.ini             # Configuration file (port, window size, etc.)
+├── html/                  # User-editable web content
+│   ├── index.html
+│   ├── styles.css
+│   └── main.js
+├── README.md              # Korean guide
+├── README_EN.md           # English guide
+└── README_JA.md           # Japanese guide
 ```
 
 Compress this folder and distribute it to users.
 
-## User Distribution Guide
+## User Guide
 
-1. Compress the `build/dist/` folder
-2. Distribute to users
-3. Users extract the compressed file and run `tauriwebview.exe`
-4. Users select their language manual from `README.txt`
+1. Run `tauriwebview.exe`
+2. Application automatically starts web server at `http://localhost:8000`
+3. Modify files in `html/` folder as desired
+4. Press F5 (refresh) in the application to see changes immediately
+5. If needed, change port number or window size in `config.ini`
 
 ## Configuration File (config.ini)
 
@@ -153,7 +149,16 @@ resizable=true         # Allow window resizing (true/false)
 [app]
 name=TauriWebview      # Application name
 version=0.1.0          # Version
+port=8000              # Web server port number (default: 8000)
 ```
+
+### How to Change Port
+
+If port conflict occurs with other applications:
+
+1. Open `config.ini` file in a text editor
+2. Change `port` value in `[app]` section (e.g., `port=8080`)
+3. Restart the application
 
 ## Icon Customization
 

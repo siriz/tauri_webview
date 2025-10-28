@@ -1,28 +1,48 @@
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
-// dev 폴더 내에서 실행되므로, 루트는 상위 폴더(..)
-const srcDir = '../contents';
-const contentsDir = './src-tauri/contents';
+// dev 폴더 내에서 실행되므로, 상대 경로로 설정
+const srcHtmlDir = './src-tauri/html';
+const srcReadmeDir = './readme';
+const distHtmlDir = '../../build/dist/html';
+const distReadmeDir = '../../build/dist';
 
-// contents 디렉토리 생성
-if (!fs.existsSync(contentsDir)) {
-    fs.mkdirSync(contentsDir, { recursive: true });
+// 디렉토리 생성 함수
+function ensureDir(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
 }
 
-// 복사할 파일 목록
-const files = ['index.html', 'styles.css', 'main.js', 'icon.ico', 'README.txt', 'README_EN.txt', 'README_JA.txt', 'README_KO.txt'];
+console.log('📦 Copying files...\n');
 
-files.forEach(file => {
-    const srcFile = path.join(srcDir, file);
-    const destFile = path.join(contentsDir, file);
+// dist 디렉토리 생성
+ensureDir(distHtmlDir);
+ensureDir(distReadmeDir);
+
+// HTML 폴더 전체 복사 (전부 복사)
+console.log('→ Copying src-tauri/html to build/dist/html...');
+try {
+    // Windows에서 /Y는 덮어쓰기 확인 안 함
+    execSync(`xcopy "${srcHtmlDir}" "${distHtmlDir}" /E /I /Y`, { stdio: 'inherit' });
+    console.log('✓ HTML folder copied successfully\n');
+} catch (error) {
+    console.error('✗ Failed to copy HTML folder:', error.message);
+}
+
+// README 파일들 복사 (TXT 형식만)
+const readmeFiles = ['README_KO.txt', 'README_EN.txt', 'README_JA.txt'];
+readmeFiles.forEach(file => {
+    const srcFile = path.join(srcReadmeDir, file);
+    const destFile = path.join(distReadmeDir, file);
     
     if (fs.existsSync(srcFile)) {
         fs.copyFileSync(srcFile, destFile);
-        console.log(`✓ Copied ${file} to src-tauri/contents/`);
+        console.log(`✓ Copied ${file}`);
     } else {
         console.warn(`⚠ File not found: ${srcFile}`);
     }
 });
 
-console.log('✓ Contents folder synchronized');
+console.log('\n✓ Contents folder synchronized successfully!');

@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "prebuild": "node scripts/copy-contents.js",
     "predev": "node scripts/copy-contents.js",
     "dev": "cd src-tauri && tauri dev",
-    "build": "cd src-tauri && tauri build",
+    "prebuild": "node scripts/copy-contents.js",
+    "build": "cd src-tauri && tauri build && cd .. && node scripts/create-dist.js",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch"
