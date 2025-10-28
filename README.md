@@ -6,14 +6,6 @@
 
 Tauri를 이용한 가벼운 데스크탑 애플리케이션으로, 임베디드 웹서버를 통해 `html/` 폴더의 HTML/CSS/JS 파일을 데스크탑 애플리케이션 형태로 표시합니다.
 
-### 핵심 특징
-
-- **브라우저 불필요**: 브라우저를 실행하지 않고 로컬 환경에서 HTML을 직접 데스크탑 애플리케이션처럼 실행
-- **추가 설치 불필요**: Windows에 기본 포함된 WebView를 사용하므로 매우 가볍고 추가 설치 없이 바로 실행 가능
-- **빠른 실행**: 최소한의 리소스로 빠르고 효율적인 성능 제공
-- **동적 파일 로딩**: 실행 파일 재빌드 없이 HTML/CSS/JS 파일 수정 후 브라우저 새로고침(F5)만으로 변경사항 반영
-- **사용자 커스터마이징**: 배포 후 최종 사용자가 `html/` 폴더의 파일을 직접 수정하여 사용 가능
-
 **GitHub Repository:** https://github.com/siriz/tauri_webview
 
 ## 🚀 빠른 시작
@@ -25,14 +17,14 @@ Tauri를 이용한 가벼운 데스크탑 애플리케이션으로, 임베디드
 - 압축 파일에는 실행 파일, 설정 파일, 샘플 HTML, 그리고 사용 가이드가 포함되어 있습니다.
 - 개발 환경 구축 없이 즉시 테스트할 수 있습니다.
 
-## 특징
+## 주요 특징
 
-- **가벼운 실행파일**: 패키지에 필요한 모든 리소스가 포함되어 있어 외부 인터넷 연결 없이 동작
-- **임베디드 웹서버**: Rust로 구현된 임베디드 HTTP 서버(tiny_http)를 통해 동적으로 파일 제공
-- **실시간 수정 가능**: exe 실행 중에도 `html/` 폴더의 파일을 수정하고 브라우저 새로고침(F5)으로 즉시 반영
-- **간단한 설정**: `config.ini` 파일로 창 크기, 포트, 항상 위 표시 여부 등을 쉽게 설정
-- **네이티브 성능**: Rust 백엔드를 통한 빠른 성능과 보안
-- **확장 가능**: 간단한 구조로 기능 추가가 용이
+- **브라우저 불필요**: Windows 내장 WebView2를 사용하여 별도 브라우저 없이 HTML을 데스크탑 앱으로 실행
+- **추가 설치 불필요**: 외부 소프트웨어 설치 없이 exe만으로 바로 실행 가능
+- **임베디드 웹서버**: Rust 기반 HTTP 서버(tiny_http)로 동적 파일 제공 및 포트 설정 지원
+- **실시간 수정**: 실행 중에도 `html/` 폴더 파일 수정 후 F5로 즉시 반영 (재빌드 불필요)
+- **간편한 설정**: `config.ini`로 창 크기, 포트, 항상 위 표시 등 손쉽게 커스터마이징
+- **확장성**: 간단한 구조로 새 기능 추가 용이
 
 ## 시스템 요구사항
 
@@ -79,40 +71,39 @@ TauriWebview/
 │   │   │   ├── index.html
 │   │   │   ├── styles.css
 │   │   │   └── main.js
-│   │   ├── Cargo.toml        # Rust 의존성 (tiny_http 포함)
+│   │   ├── icons/
+│   │   │   └── icon.ico      # 멀티 사이즈 아이콘 (157KB)
+│   │   ├── Cargo.toml        # Rust 의존성 (tiny_http, configparser)
 │   │   ├── tauri.conf.json   # Tauri 설정 (URL: http://localhost:8000)
 │   │   ├── build.rs          # 빌드 스크립트 (아이콘 임베딩)
-│   │   ├── .cargo/
-│   │   │   └── config.toml   # 빌드 출력 경로 설정
-│   │   └── icons/
-│   │       └── icon.ico      # 멀티 사이즈 아이콘
+│   │   └── .cargo/
+│   │       └── config.toml   # 빌드 출력 경로 (../../build)
+│   ├── readme/               # 사용자용 가이드 (TXT 형식)
+│   │   ├── README_KO.txt
+│   │   ├── README_EN.txt
+│   │   └── README_JA.txt
 │   ├── scripts/              # 빌드 스크립트
-│   │   ├── copy-contents.js  # HTML 파일 복사 스크립트
-│   │   └── create-dist.js    # 배포 패키지 생성 스크립트
-│   ├── node_modules/         # npm 의존성
-│   ├── package.json          # npm 스크립트 및 의존성
-│   ├── package-lock.json
-│   └── tsconfig.json
+│   │   ├── copy-contents.js  # HTML 및 README 복사
+│   │   └── create-dist.js    # 배포 패키지 생성
+│   ├── package.json          # npm 스크립트
+│   └── node_modules/         # npm 의존성
 ├── build/                    # 빌드 결과물 (자동 생성)
-│   ├── debug/               # 디버그 빌드
-│   ├── release/             # 릴리즈 빌드
-│   │   └── tauriwebview.exe (9.8MB)
-│   └── dist/                # 최종 배포 패키지
-│       ├── tauriwebview.exe
-│       ├── config.ini       # 사용자 설정 파일
-│       ├── html/            # 사용자 편집 가능한 웹 콘텐츠
+│   └── dist/                 # 최종 배포 패키지
+│       ├── tauriwebview.exe  # 실행파일 (9.2MB)
+│       ├── config.ini        # 사용자 설정 파일
+│       ├── html/             # 사용자 편집 가능한 웹 콘텐츠
 │       │   ├── index.html
 │       │   ├── styles.css
 │       │   └── main.js
-│       ├── README.md
-│       ├── README_EN.md
-│       └── README_JA.md
-├── config.ini               # 앱 설정 파일 (개발용)
-├── .gitignore
-├── .vscode/
-│   ├── guide.md            # 개발 지침 및 규칙
-│   └── feature.md          # 기능 명세서
-└── README.md
+│       ├── README_KO.txt     # 한국어 사용 가이드
+│       ├── README_EN.txt     # 영어 사용 가이드
+│       └── README_JA.txt     # 일본어 사용 가이드
+├── config.ini                # 앱 설정 파일 (개발용 템플릿)
+├── LICENSE                   # MIT 라이센스
+├── README.md                 # 개발자용 한국어 문서
+├── README_EN.md              # 개발자용 영어 문서
+├── README_JA.md              # 개발자용 일본어 문서
+└── tauriwebview-dist.zip     # 배포용 압축 파일 (2.81MB)
 ```
 
 ## 배포
@@ -121,18 +112,20 @@ TauriWebview/
 
 ```
 build/dist/
-├── tauriwebview.exe       # 실행파일 (9.8MB, 임베디드 웹서버 포함)
+├── tauriwebview.exe       # 실행파일 (9.2MB, 임베디드 웹서버 포함)
 ├── config.ini             # 설정파일 (포트, 창 크기 등)
 ├── html/                  # 사용자가 직접 수정 가능한 웹 콘텐츠
 │   ├── index.html
 │   ├── styles.css
 │   └── main.js
-├── README.md              # 한국어 가이드
-├── README_EN.md           # 영어 가이드
-└── README_JA.md           # 일본어 가이드
+├── README_KO.txt          # 한국어 사용 가이드
+├── README_EN.txt          # 영어 사용 가이드
+└── README_JA.txt          # 일본어 사용 가이드
 ```
 
-이 폴더의 내용을 압축하여 사용자에게 배포하면 됩니다.
+**배포 방법:**
+- `build/dist/` 폴더를 압축하여 사용자에게 배포
+- 또는 프로젝트 루트의 `tauriwebview-dist.zip` 사용
 
 ## 사용자 사용 방법
 

@@ -6,14 +6,6 @@
 
 Tauriを使用して、埋め込みWebサーバーを通じて`html/`フォルダ内のHTML/CSS/JSファイルをデスクトップアプリケーションとして表示する、軽量なデスクトップアプリケーションです。
 
-### 主な特徴
-
-- **ブラウザ不要**: ブラウザを起動せずにローカル環境でHTMLをデスクトップアプリケーションのように直接実行
-- **追加インストール不要**: Windowsに組み込まれたWebViewを使用しているため、非常に軽量で追加ソフトウェアのインストールなしに即座に実行可能
-- **高速実行**: 最小限のリソースで高速かつ効率的なパフォーマンスを提供
-- **動的ファイル読み込み**: 実行ファイル再ビルド不要、HTML/CSS/JSファイル修正後ブラウザ更新(F5)だけで変更が反映
-- **ユーザーカスタマイズ**: 配布後、エンドユーザーが`html/`フォルダのファイルを直接修正して使用可能
-
 **GitHubリポジトリ:** https://github.com/siriz/tauri_webview
 
 ## 🚀 クイックスタート
@@ -25,14 +17,14 @@ Tauriを使用して、埋め込みWebサーバーを通じて`html/`フォル�
 - パッケージには実行ファイル、設定ファイル、サンプルHTML、ユーザーガイドが含まれています。
 - 開発環境の構築なしにすぐにテストできます。
 
-## 機能
+## 主な特徴
 
-- **軽量実行ファイル**: 必要なすべてのリソースがパッケージに含まれており、外部インターネット接続なしで実行できます
-- **埋め込みWebサーバー**: Rustで実装された埋め込みHTTPサーバー(tiny_http)を通じて動的にファイルを提供
-- **リアルタイム修正可能**: exe実行中に`html/`フォルダのファイルを修正し、ブラウザ更新(F5)で即座に反映
-- **シンプルな設定**: `config.ini`ファイルを使用してウィンドウサイズ、ポート、常に前面表示などを簡単に設定
-- **ネイティブパフォーマンス**: Rustバックエンドによる高速パフォーマンスとセキュリティ
-- **拡張可能**: シンプルな構造により、新機能の追加が簡単です
+- **ブラウザ不要**: Windows内蔵WebView2を使用し、別途ブラウザなしでHTMLをデスクトップアプリとして実行
+- **追加インストール不要**: exeファイルだけで即座に実行可能、外部ソフトウェアのインストール不要
+- **埋め込みWebサーバー**: RustベースのHTTPサーバー(tiny_http)で動的ファイル提供、ポート設定をサポート
+- **リアルタイム編集**: 実行中に`html/`フォルダのファイルを修正し、F5で即座に反映(再ビルド不要)
+- **簡単な設定**: `config.ini`でウィンドウサイズ、ポート、常に前面表示などを簡単にカスタマイズ
+- **拡張可能**: シンプルな構造により、新機能の追加が簡単
 
 ## システム要件
 
@@ -73,56 +65,45 @@ TauriWebview/
 ├── dev/                       # すべての開発ソースコード
 │   ├── src-tauri/            # Rustバックエンドソース
 │   │   ├── src/
-│   │   │   ├── main.rs
-│   │   │   └── lib.rs
-│   │   ├── Cargo.toml
-│   │   ├── tauri.conf.json
-│   │   ├── .cargo/
-│   │   │   └── config.toml   # ビルド出力パス設定
-│   │   └── icons/
+│   │   │   ├── main.rs       # メインエントリポイント
+│   │   │   └── lib.rs        # 埋め込みWebサーバーとコアロジック
+│   │   ├── html/             # 開発用Webコンテンツ (ソース)
+│   │   │   ├── index.html
+│   │   │   ├── styles.css
+│   │   │   └── main.js
+│   │   ├── icons/
+│   │   │   └── icon.ico      # マルチサイズアイコン (157KB)
+│   │   ├── Cargo.toml        # Rust依存関係 (tiny_http, configparser)
+│   │   ├── tauri.conf.json   # Tauri設定 (URL: http://localhost:8000)
+│   │   ├── build.rs          # ビルドスクリプト (アイコン埋め込み)
+│   │   └── .cargo/
+│   │       └── config.toml   # ビルド出力パス (../../build)
+│   ├── readme/               # ユーザー向けガイド (TXT形式)
+│   │   ├── README_KO.txt
+│   │   ├── README_EN.txt
+│   │   └── README_JA.txt
 │   ├── scripts/              # ビルドスクリプト
-│   │   └── copy-contents.js  # コンテンツコピースクリプト
-│   ├── node_modules/         # npm依存関係
-│   ├── package.json
-│   ├── package-lock.json
-│   └── tsconfig.json
-├── contents/                 # Webコンテンツ (開発用)
-│   ├── index.html
-│   ├── styles.css
-│   ├── main.js
-│   ├── icon.ico              # アプリケーションアイコン
-│   ├── README.txt            # クイックスタートガイド
-│   ├── README_EN.txt         # 英語マニュアル
-│   ├── README_JA.txt         # 日本語マニュアル
-│   └── README_KO.txt         # 韓国語マニュアル
+│   │   ├── copy-contents.js  # HTMLとREADMEファイルをコピー
+│   │   └── create-dist.js    # 配布パッケージを作成
+│   ├── package.json          # npmスクリプト
+│   └── node_modules/         # npm依存関係
 ├── build/                    # ビルドアーティファクト (自動生成)
-│   ├── debug/               # デバッグビルド
-│   ├── release/             # リリース実行ファイル
-│   │   └── tauriwebview.exe
-│   └── dist/                # 最終配布パッケージ
-│       ├── tauriwebview.exe
-│       ├── config.ini
-│       ├── icon.ico
-│       ├── README.txt
-│       ├── README_EN.txt
-│       ├── README_JA.txt
-│       ├── README_KO.txt
-│       └── contents/
-│           ├── index.html
-│           ├── styles.css
-│           ├── main.js
-│           ├── icon.ico
-│           ├── README.txt
-│           ├── README_EN.txt
-│           ├── README_JA.txt
-│           └── README_KO.txt
-├── config.ini               # アプリケーション設定ファイル
-├── .gitignore
-├── .vscode/
-│   ├── guide.md            # 開発ガイドラインとルール
-│   └── feature.md          # 機能仕様
-├── LICENSE                  # ライセンスファイル
-└── README.md
+│   └── dist/                 # 最終配布パッケージ
+│       ├── tauriwebview.exe  # 実行ファイル (9.2MB)
+│       ├── config.ini        # ユーザー設定ファイル
+│       ├── html/             # ユーザー編集可能なWebコンテンツ
+│       │   ├── index.html
+│       │   ├── styles.css
+│       │   └── main.js
+│       ├── README_KO.txt     # 韓国語ユーザーガイド
+│       ├── README_EN.txt     # 英語ユーザーガイド
+│       └── README_JA.txt     # 日本語ユーザーガイド
+├── config.ini                # アプリ設定 (開発用テンプレート)
+├── LICENSE                   # MITライセンス
+├── README.md                 # 開発者向け韓国語ドキュメント
+├── README_EN.md              # 開発者向け英語ドキュメント
+├── README_JA.md              # 開発者向け日本語ドキュメント
+└── tauriwebview-dist.zip     # 配布用圧縮ファイル (2.81MB)
 ```
 
 ## 配布
@@ -131,18 +112,20 @@ TauriWebview/
 
 ```
 build/dist/
-├── tauriwebview.exe       # 実行ファイル (9.8MB、埋め込みWebサーバー含む)
+├── tauriwebview.exe       # 実行ファイル (9.2MB、埋め込みWebサーバー含む)
 ├── config.ini             # 設定ファイル (ポート、ウィンドウサイズなど)
 ├── html/                  # ユーザー編集可能なWebコンテンツ
 │   ├── index.html
 │   ├── styles.css
 │   └── main.js
-├── README.md              # 韓国語ガイド
-├── README_EN.md           # 英語ガイド
-└── README_JA.md           # 日本語ガイド
+├── README_KO.txt          # 韓国語ユーザーガイド
+├── README_EN.txt          # 英語ユーザーガイド
+└── README_JA.txt          # 日本語ユーザーガイド
 ```
 
-このフォルダを圧縮してユーザーに配布します。
+**配布方法:**
+- `build/dist/`フォルダを圧縮してユーザーに配布
+- またはプロジェクトルートの`tauriwebview-dist.zip`を使用
 
 ## ユーザー使用方法
 

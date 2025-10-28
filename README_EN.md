@@ -6,14 +6,6 @@
 
 A lightweight desktop application using Tauri that displays HTML/CSS/JS files from the `html/` folder through an embedded web server as a desktop application.
 
-### Key Features
-
-- **No Browser Required**: Run HTML files directly as desktop applications without launching a browser in the local environment
-- **No Additional Installation Needed**: Uses Windows built-in WebView, so it's lightweight and runs immediately without extra software installations
-- **Fast Execution**: Provides fast and efficient performance with minimal resource consumption
-- **Dynamic File Loading**: Modify HTML/CSS/JS files and see changes immediately with browser refresh (F5) without rebuilding the executable
-- **User Customization**: End users can modify files in the `html/` folder after deployment
-
 **GitHub Repository:** https://github.com/siriz/tauri_webview
 
 ## 🚀 Quick Start
@@ -25,14 +17,14 @@ Want to test without building?
 - The package includes the executable, configuration file, sample HTML, and user guides.
 - You can test immediately without setting up a development environment.
 
-## Features
+## Key Features
 
-- **Lightweight Executable**: All necessary resources are included in the package, allowing it to run without external internet connection
-- **Embedded Web Server**: Dynamically serves files through embedded HTTP server (tiny_http) implemented in Rust
-- **Real-time Editable**: Modify files in `html/` folder while exe is running and see changes immediately with browser refresh (F5)
-- **Simple Configuration**: Easily customize window size, port, and other settings using the `config.ini` file
-- **Native Performance**: Fast performance and security through Rust backend
-- **Extensible**: Simple structure makes it easy to add new features
+- **No Browser Required**: Uses Windows built-in WebView2 to run HTML as desktop app without separate browser
+- **No Additional Installation**: Runs immediately with just the exe file, no external software installation needed
+- **Embedded Web Server**: Rust-based HTTP server (tiny_http) for dynamic file serving with port configuration support
+- **Real-time Editing**: Modify files in `html/` folder while running and see changes with F5 (no rebuild needed)
+- **Easy Configuration**: Customize window size, port, always-on-top, etc. easily with `config.ini`
+- **Extensible**: Simple structure makes adding new features easy
 
 ## System Requirements
 
@@ -79,40 +71,39 @@ TauriWebview/
 │   │   │   ├── index.html
 │   │   │   ├── styles.css
 │   │   │   └── main.js
-│   │   ├── Cargo.toml        # Rust dependencies (includes tiny_http)
+│   │   ├── icons/
+│   │   │   └── icon.ico      # Multi-size icon (157KB)
+│   │   ├── Cargo.toml        # Rust dependencies (tiny_http, configparser)
 │   │   ├── tauri.conf.json   # Tauri config (URL: http://localhost:8000)
 │   │   ├── build.rs          # Build script (icon embedding)
-│   │   ├── .cargo/
-│   │   │   └── config.toml   # Build output path configuration
-│   │   └── icons/
-│   │       └── icon.ico      # Multi-size icon
+│   │   └── .cargo/
+│   │       └── config.toml   # Build output path (../../build)
+│   ├── readme/               # User guides (TXT format)
+│   │   ├── README_KO.txt
+│   │   ├── README_EN.txt
+│   │   └── README_JA.txt
 │   ├── scripts/              # Build scripts
-│   │   ├── copy-contents.js  # HTML file copy script
-│   │   └── create-dist.js    # Distribution package creation script
-│   ├── node_modules/         # npm dependencies
-│   ├── package.json          # npm scripts and dependencies
-│   ├── package-lock.json
-│   └── tsconfig.json
+│   │   ├── copy-contents.js  # Copy HTML and README files
+│   │   └── create-dist.js    # Create distribution package
+│   ├── package.json          # npm scripts
+│   └── node_modules/         # npm dependencies
 ├── build/                    # Build artifacts (auto-generated)
-│   ├── debug/               # Debug build
-│   ├── release/             # Release build
-│   │   └── tauriwebview.exe (9.8MB)
-│   └── dist/                # Final distribution package
-│       ├── tauriwebview.exe
-│       ├── config.ini       # User configuration file
-│       ├── html/            # User-editable web content
+│   └── dist/                 # Final distribution package
+│       ├── tauriwebview.exe  # Executable (9.2MB)
+│       ├── config.ini        # User configuration file
+│       ├── html/             # User-editable web content
 │       │   ├── index.html
 │       │   ├── styles.css
 │       │   └── main.js
-│       ├── README.md
-│       ├── README_EN.md
-│       └── README_JA.md
-├── config.ini               # Application settings file (development)
-├── .gitignore
-├── .vscode/
-│   ├── guide.md            # Development guidelines and rules
-│   └── feature.md          # Feature specifications
-└── README.md
+│       ├── README_KO.txt     # Korean user guide
+│       ├── README_EN.txt     # English user guide
+│       └── README_JA.txt     # Japanese user guide
+├── config.ini                # App configuration (development template)
+├── LICENSE                   # MIT License
+├── README.md                 # Korean documentation for developers
+├── README_EN.md              # English documentation for developers
+├── README_JA.md              # Japanese documentation for developers
+└── tauriwebview-dist.zip     # Distribution package (2.81MB)
 ```
 
 ## Distribution
@@ -121,18 +112,20 @@ After building, the distribution package is generated in the `build/dist/` folde
 
 ```
 build/dist/
-├── tauriwebview.exe       # Executable file (9.8MB, includes embedded web server)
+├── tauriwebview.exe       # Executable (9.2MB, includes embedded web server)
 ├── config.ini             # Configuration file (port, window size, etc.)
 ├── html/                  # User-editable web content
 │   ├── index.html
 │   ├── styles.css
 │   └── main.js
-├── README.md              # Korean guide
-├── README_EN.md           # English guide
-└── README_JA.md           # Japanese guide
+├── README_KO.txt          # Korean user guide
+├── README_EN.txt          # English user guide
+└── README_JA.txt          # Japanese user guide
 ```
 
-Compress this folder and distribute it to users.
+**Distribution Methods:**
+- Compress the `build/dist/` folder and distribute to users
+- Or use `tauriwebview-dist.zip` in the project root
 
 ## User Guide
 
