@@ -16,6 +16,15 @@ A lightweight desktop application using Tauri that displays HTML/CSS/JS files fr
 
 **GitHub Repository:** https://github.com/siriz/tauri_webview
 
+## 🚀 Quick Start
+
+Want to test without building?
+
+👉 Download files from **[build/dist](build/dist)** folder or download **[tauriwebview-dist.zip](tauriwebview-dist.zip)**, extract it, and run `tauriwebview.exe`!
+
+- The package includes the executable, configuration file, sample HTML, and user guides.
+- You can test immediately without setting up a development environment.
+
 ## Features
 
 - **Lightweight Executable**: All necessary resources are included in the package, allowing it to run without external internet connection
