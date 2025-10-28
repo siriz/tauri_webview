@@ -239,7 +239,3 @@ port=8000              # Webサーバーポート番号 (デフォルト: 8000)
 - [Rust公式ドキュメント](https://doc.rust-lang.org/)
 - [Node.jsドキュメント](https://nodejs.org/en/docs/)
 - [Windowsアイコンガイドライン](https://docs.microsoft.com/en-us/windows/apps/design/style/iconography/)
-
-## ライセンス
-
-このプロジェクトはMITライセンスの下でライセンスされています。詳細は[LICENSE](LICENSE)ファイルを参照してください。

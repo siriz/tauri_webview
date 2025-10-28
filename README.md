@@ -249,35 +249,6 @@ embed-resource = "3"      # 아이콘 임베딩
 - `create-dist.js`: 최종 배포 패키지 생성
 - `build.rs`: 아이콘 임베딩 처리
 
-### 아이콘 제작 단계
-
-1. **다양한 해상도의 이미지 준비**
-   - 권장 해상도: 16x16, 32x32, 48x48, 64x64, 128x128, 256x256
-   - 형식: PNG (투명 배경 권장)
-
-2. **ICO 파일로 변환**
-   - 온라인 도구: https://convertio.co/png-ico/
-   - 또는 ImageMagick 설치 후:
-     ```bash
-     magick convert icon-16.png icon-32.png icon-48.png icon-64.png icon-128.png icon-256.png icon.ico
-     ```
-
-3. **아이콘 파일 저장**
-   - `dev/src-tauri/icons/icon.ico` 에 저장
-   - 기존 파일을 덮어쓰기
-
-4. **빌드 및 배포**
-   ```bash
-   npm run build
-   ```
-   - 빌드 시 자동으로 `build/dist/icon.ico`에 복사됨
-
-### 아이콘 제작 단계
-
-1. **다양한 해상도의 이미지 준비**
-   - 권장 해상도: 16x16, 32x32, 48x48, 64x64, 128x128, 256x256
-   - 형식: PNG (투명 배경 권장)
-
 ## 라이센스
 
 이 프로젝트는 MIT 라이센스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.

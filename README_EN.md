@@ -229,7 +229,3 @@ This project is distributed under the MIT License. For details, see the [LICENSE
 - [Rust Official Documentation](https://doc.rust-lang.org/)
 - [Node.js Documentation](https://nodejs.org/en/docs/)
 - [Windows Icon Guidelines](https://docs.microsoft.com/en-us/windows/apps/design/style/iconography/)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
