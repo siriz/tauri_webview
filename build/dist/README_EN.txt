@@ -43,9 +43,9 @@ How to Use
   • main.js - JavaScript code
   • You can also add images, audio, video, and PDF files
 
-  [How to apply changes]
-  • Press F5 key in the application window, or
-  • Restart the application to see the changes
+  [Keyboard Shortcuts]
+  • F5: Refresh page (apply modified HTML/CSS/JS)
+  • F11: Toggle fullscreen (fullscreen ↔ window mode)
 
 
 3. Changing Settings (config.ini)

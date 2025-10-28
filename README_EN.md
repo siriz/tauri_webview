@@ -135,6 +135,10 @@ build/dist/
 4. Press F5 (refresh) in the application to see changes immediately
 5. If needed, change port number or window size in `config.ini`
 
+### Keyboard Shortcuts
+- **F5**: Refresh page (apply modified HTML/CSS/JS)
+- **F11**: Toggle fullscreen (fullscreen ↔ window mode)
+
 ## Configuration File (config.ini)
 
 You can customize the application using the `config.ini` file:
@@ -149,10 +153,12 @@ always_on_top=false    # Keep window on top (true/false)
 resizable=true         # Allow window resizing (true/false)
 
 [app]
-name=TauriWebview      # Application name
-version=0.1.0          # Version
+name=TauriWebview      # Application name (displayed in window title)
+version=0.1.0          # Version (displayed in window title)
 port=8000              # Web server port number (default: 8000)
 ```
+
+**Note**: name and version are displayed in the window title in the format {name} v{version}.
 
 ### How to Change Port
 

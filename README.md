@@ -135,6 +135,11 @@ build/dist/
 4. 애플리케이션에서 F5(새로고침)를 눌러 변경사항 즉시 확인
 5. 필요시 `config.ini`에서 포트 번호나 창 크기 변경
 
+### 단축키
+
+- **F5**: 페이지 새로고침 (수정된 HTML/CSS/JS 반영)
+- **F11**: 전체화면 토글 (전체화면 ↔ 창 모드)
+
 ## 설정 파일 (config.ini)
 
 `config.ini` 파일로 다음 항목을 설정할 수 있습니다:
@@ -149,10 +154,12 @@ always_on_top=false    # 항상 위에 표시 여부
 resizable=true         # 창 리사이즈 가능 여부
 
 [app]
-name=TauriWebview      # 애플리케이션 이름
-version=0.1.0          # 버전
+name=TauriWebview      # 애플리케이션 이름 (창 제목에 표시)
+version=0.1.0          # 버전 (창 제목에 표시)
 port=8000              # 웹서버 포트 번호 (기본값: 8000)
 ```
+
+**참고**: `name`과 `version`은 창 제목에 `{name} v{version}` 형식으로 표시됩니다.
 
 ### 포트 변경 방법
 
