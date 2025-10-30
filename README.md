@@ -3,6 +3,7 @@
 **Languages:** [한국어](README.md) | [English](README_EN.md) | [日本語](README_JA.md)
 
 [![GitHub](https://img.shields.io/badge/GitHub-siriz%2Ftauri__webview-black?logo=github)](https://github.com/siriz/tauri_webview)
+[![Version](https://img.shields.io/github/v/tag/siriz/tauri_webview?label=version)](https://github.com/siriz/tauri_webview/releases)
 
 Tauri를 이용한 가벼운 데스크탑 애플리케이션으로, 임베디드 웹서버를 통해 `html/` 폴더의 HTML/CSS/JS 파일을 데스크탑 애플리케이션 형태로 표시합니다.
 

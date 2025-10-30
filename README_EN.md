@@ -3,6 +3,7 @@
 **Languages:** [한국어](README.md) | [English](README_EN.md) | [日本語](README_JA.md)
 
 [![GitHub](https://img.shields.io/badge/GitHub-siriz%2Ftauri__webview-black?logo=github)](https://github.com/siriz/tauri_webview)
+[![Version](https://img.shields.io/github/v/tag/siriz/tauri_webview?label=version)](https://github.com/siriz/tauri_webview/releases)
 
 A lightweight desktop application using Tauri that displays HTML/CSS/JS files from the `html/` folder through an embedded web server as a desktop application.
 
