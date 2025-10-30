@@ -64,48 +64,50 @@ npm run build
 
 ```
 TauriWebview/
-├── dev/                       # All development source code
-│   ├── src-tauri/            # Rust backend source
+├── dev/                              # All development source code
+│   ├── src-tauri/                   # Rust backend source
 │   │   ├── src/
-│   │   │   ├── main.rs       # Main entry point
-│   │   │   └── lib.rs        # Embedded web server and core logic
-│   │   ├── html/             # Web content for development (source)
-│   │   │   ├── index.html
+│   │   │   ├── main.rs              # Main entry point
+│   │   │   └── lib.rs               # Embedded web server and core logic
+│   │   ├── html/                    # Web content for development (source)
+│   │   │   ├── index.html           # Includes Drag & Drop sample
 │   │   │   ├── styles.css
 │   │   │   └── main.js
 │   │   ├── icons/
-│   │   │   └── icon.ico      # Multi-size icon (157KB)
-│   │   ├── Cargo.toml        # Rust dependencies (tiny_http, configparser)
-│   │   ├── tauri.conf.json   # Tauri config (URL: http://localhost:8000)
-│   │   ├── build.rs          # Build script (icon embedding)
+│   │   │   └── icon.ico             # Multi-size icon (157KB)
+│   │   ├── Cargo.toml               # Rust dependencies (tauri, tiny_http, configparser, etc.)
+│   │   ├── tauri.conf.json          # Tauri config (dragDropEnabled: false)
+│   │   ├── build.rs                 # Build script (auto Git version generation)
 │   │   └── .cargo/
-│   │       └── config.toml   # Build output path (../../build)
-│   ├── readme/               # User guides (TXT format)
+│   │       └── config.toml          # Build output path (../../build)
+│   ├── readme/                      # User guides (TXT format)
 │   │   ├── README_KO.txt
 │   │   ├── README_EN.txt
 │   │   └── README_JA.txt
-│   ├── scripts/              # Build scripts
-│   │   ├── copy-contents.js  # Copy HTML and README files
-│   │   └── create-dist.js    # Create distribution package
-│   ├── package.json          # npm scripts
-│   └── node_modules/         # npm dependencies
-├── build/                    # Build artifacts (auto-generated)
-│   └── dist/                 # Final distribution package
-│       ├── tauriwebview.exe  # Executable (9.2MB)
-│       ├── config.ini        # User configuration file
-│       ├── html/             # User-editable web content
+│   ├── scripts/                     # Automation scripts
+│   │   ├── update-version.js        # Auto version update based on Git
+│   │   ├── copy-contents.js         # Copy HTML and README files
+│   │   ├── create-dist.js           # Create distribution package
+│   │   └── create-release-zip.js    # Generate versioned zip file
+│   ├── package.json                 # npm scripts (prebuild/postbuild)
+│   └── node_modules/                # npm dependencies
+├── build/                           # Build artifacts (auto-generated, Git excluded)
+│   └── dist/                        # Final distribution package
+│       ├── tauriwebview.exe         # Executable (~9MB)
+│       ├── config.ini               # User configuration file
+│       ├── html/                    # User-editable web content
 │       │   ├── index.html
 │       │   ├── styles.css
 │       │   └── main.js
-│       ├── README_KO.txt     # Korean user guide
-│       ├── README_EN.txt     # English user guide
-│       └── README_JA.txt     # Japanese user guide
-├── config.ini                # App configuration (development template)
-├── LICENSE                   # MIT License
-├── README.md                 # Korean documentation for developers
-├── README_EN.md              # English documentation for developers
-├── README_JA.md              # Japanese documentation for developers
-└── tauriwebview-dist.zip     # Distribution package (2.81MB)
+│       ├── README_KO.txt            # Korean user guide
+│       ├── README_EN.txt            # English user guide
+│       └── README_JA.txt            # Japanese user guide
+├── config.ini                       # App configuration (development template)
+├── LICENSE                          # MIT License
+├── README.md                        # Korean documentation for developers
+├── README_EN.md                     # English documentation for developers
+├── README_JA.md                     # Japanese documentation for developers
+└── tauriwebview-v0.2.0-windows-x64.zip  # Distribution package (~3MB)
 ```
 
 ## Distribution
@@ -126,8 +128,9 @@ build/dist/
 ```
 
 **Distribution Methods:**
-- Compress the `build/dist/` folder and distribute to users
-- Or use `tauriwebview-dist.zip` in the project root
+- Auto-generated `tauriwebview-v{version}-windows-x64.zip` during build
+- Upload to GitHub Releases for distribution
+- Or directly distribute the `build/dist/` folder
 
 ## User Guide
 

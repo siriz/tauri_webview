@@ -67,48 +67,50 @@ npm run build
 
 ```
 TauriWebview/
-├── dev/                       # 모든 개발 소스코드
-│   ├── src-tauri/            # Rust 백엔드 소스
+├── dev/                              # 모든 개발 소스코드
+│   ├── src-tauri/                   # Rust 백엔드 소스
 │   │   ├── src/
-│   │   │   ├── main.rs       # 메인 엔트리 포인트
-│   │   │   └── lib.rs        # 임베디드 웹서버 및 핵심 로직
-│   │   ├── html/             # 개발용 웹 콘텐츠 (소스)
-│   │   │   ├── index.html
+│   │   │   ├── main.rs              # 메인 엔트리 포인트
+│   │   │   └── lib.rs               # 임베디드 웹서버 및 핵심 로직
+│   │   ├── html/                    # 개발용 웹 콘텐츠 (소스)
+│   │   │   ├── index.html           # Drag & Drop 샘플 포함
 │   │   │   ├── styles.css
 │   │   │   └── main.js
 │   │   ├── icons/
-│   │   │   └── icon.ico      # 멀티 사이즈 아이콘 (157KB)
-│   │   ├── Cargo.toml        # Rust 의존성 (tiny_http, configparser)
-│   │   ├── tauri.conf.json   # Tauri 설정 (URL: http://localhost:8000)
-│   │   ├── build.rs          # 빌드 스크립트 (아이콘 임베딩)
+│   │   │   └── icon.ico             # 멀티 사이즈 아이콘 (157KB)
+│   │   ├── Cargo.toml               # Rust 의존성 (tauri, tiny_http, configparser 등)
+│   │   ├── tauri.conf.json          # Tauri 설정 (dragDropEnabled: false)
+│   │   ├── build.rs                 # 빌드 스크립트 (Git 버전 자동 생성)
 │   │   └── .cargo/
-│   │       └── config.toml   # 빌드 출력 경로 (../../build)
-│   ├── readme/               # 사용자용 가이드 (TXT 형식)
+│   │       └── config.toml          # 빌드 출력 경로 (../../build)
+│   ├── readme/                      # 사용자용 가이드 (TXT 형식)
 │   │   ├── README_KO.txt
 │   │   ├── README_EN.txt
 │   │   └── README_JA.txt
-│   ├── scripts/              # 빌드 스크립트
-│   │   ├── copy-contents.js  # HTML 및 README 복사
-│   │   └── create-dist.js    # 배포 패키지 생성
-│   ├── package.json          # npm 스크립트
-│   └── node_modules/         # npm 의존성
-├── build/                    # 빌드 결과물 (자동 생성)
-│   └── dist/                 # 최종 배포 패키지
-│       ├── tauriwebview.exe  # 실행파일 (9.2MB)
-│       ├── config.ini        # 사용자 설정 파일
-│       ├── html/             # 사용자 편집 가능한 웹 콘텐츠
+│   ├── scripts/                     # 자동화 스크립트
+│   │   ├── update-version.js        # Git 기반 자동 버전 업데이트
+│   │   ├── copy-contents.js         # HTML 및 README 복사
+│   │   ├── create-dist.js           # 배포 패키지 생성
+│   │   └── create-release-zip.js    # 버전별 zip 파일 생성
+│   ├── package.json                 # npm 스크립트 (prebuild/postbuild)
+│   └── node_modules/                # npm 의존성
+├── build/                           # 빌드 결과물 (자동 생성, Git 제외)
+│   └── dist/                        # 최종 배포 패키지
+│       ├── tauriwebview.exe         # 실행파일 (~9MB)
+│       ├── config.ini               # 사용자 설정 파일
+│       ├── html/                    # 사용자 편집 가능한 웹 콘텐츠
 │       │   ├── index.html
 │       │   ├── styles.css
 │       │   └── main.js
-│       ├── README_KO.txt     # 한국어 사용 가이드
-│       ├── README_EN.txt     # 영어 사용 가이드
-│       └── README_JA.txt     # 일본어 사용 가이드
-├── config.ini                # 앱 설정 파일 (개발용 템플릿)
-├── LICENSE                   # MIT 라이센스
-├── README.md                 # 개발자용 한국어 문서
-├── README_EN.md              # 개발자용 영어 문서
-├── README_JA.md              # 개발자용 일본어 문서
-└── tauriwebview-dist.zip     # 배포용 압축 파일 (2.81MB)
+│       ├── README_KO.txt            # 한국어 사용 가이드
+│       ├── README_EN.txt            # 영어 사용 가이드
+│       └── README_JA.txt            # 일본어 사용 가이드
+├── config.ini                       # 앱 설정 파일 (개발용 템플릿)
+├── LICENSE                          # MIT 라이센스
+├── README.md                        # 개발자용 한국어 문서
+├── README_EN.md                     # 개발자용 영어 문서
+├── README_JA.md                     # 개발자용 일본어 문서
+└── tauriwebview-v0.2.0-windows-x64.zip  # 배포용 압축 파일 (~3MB)
 ```
 
 ## 배포
@@ -129,8 +131,9 @@ build/dist/
 ```
 
 **배포 방법:**
-- `build/dist/` 폴더를 압축하여 사용자에게 배포
-- 또는 프로젝트 루트의 `tauriwebview-dist.zip` 사용
+- 빌드 시 자동으로 `tauriwebview-v{version}-windows-x64.zip` 생성됨
+- GitHub Releases에 업로드하여 배포
+- 또는 `build/dist/` 폴더를 직접 배포
 
 ## 사용자 사용 방법
 

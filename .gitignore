@@ -1,6 +1,8 @@
-# Build artifacts
+# Build artifacts (excluding dist folder for distribution)
 build/
+!build/dist/
 dev/src-tauri/target/
+
 # Distribution zip files with version are kept in root for GitHub Release
 !tauriwebview-v*-windows-x64.zip
 
@@ -35,11 +37,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Build output files (keep only dist/)
-build/debug/*.exe
-build/debug/*.dll
-build/debug/*.d
-build/debug/*.pdb
-build/debug/*.rlib
-build/release/*.exe
