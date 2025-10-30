@@ -14,11 +14,16 @@ const tauriConfPath = path.join(__dirname, '..', 'src-tauri', 'tauri.conf.json')
 const tauriConf = JSON.parse(fs.readFileSync(tauriConfPath, 'utf-8'));
 const version = tauriConf.version;
 
-const zipPath = path.join(rootDir, `tauriwebview-v${version}.zip`);
+// Platform and architecture
+const platform = 'windows';
+const arch = 'x64';
+
+const zipPath = path.join(rootDir, `tauriwebview-v${version}-${platform}-${arch}.zip`);
 
 console.log('\n📦 Creating release distribution zip...');
 console.log('━'.repeat(50));
 console.log(`📌 Version: v${version}`);
+console.log(`💻 Platform: ${platform}-${arch}`);
 
 // Check if dist directory exists
 if (!fs.existsSync(distDir)) {
@@ -45,7 +50,7 @@ try {
   const sizeMB = (stats.size / 1024 / 1024).toFixed(2);
   
   console.log('━'.repeat(50));
-  console.log(`✅ Created: tauriwebview-v${version}.zip (${sizeMB} MB)`);
+  console.log(`✅ Created: tauriwebview-v${version}-${platform}-${arch}.zip (${sizeMB} MB)`);
   console.log('📍 Location: ' + zipPath);
   console.log('\n💡 This file is ready for GitHub Release!\n');
   

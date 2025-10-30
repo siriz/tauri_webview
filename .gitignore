@@ -1,8 +1,8 @@
 # Build artifacts
 build/
 dev/src-tauri/target/
-# Distribution zip is kept in root for easy download
-!tauriwebview-dist.zip
+# Distribution zip files with version are kept in root for GitHub Release
+!tauriwebview-v*-windows-x64.zip
 
 # Build cache and temporary files
 .cargo-lock

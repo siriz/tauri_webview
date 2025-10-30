@@ -13,10 +13,11 @@ Tauriを使用して、埋め込みWebサーバーを通じて`html/`フォル�
 
 ビルドせずにすぐテストしたいですか？
 
-👉 **[build/dist](build/dist)** フォルダのファイルをダウンロードするか、**[tauriwebview-dist.zip](tauriwebview-dist.zip)**をダウンロードして解凍後、`tauriwebview.exe`を実行してください！
+👉 **[GitHub Releases](https://github.com/siriz/tauri_webview/releases)**から最新の**`tauriwebview-v0.2.0-windows-x64.zip`**をダウンロードして解凍後、`tauriwebview.exe`を実行してください！
 
 - パッケージには実行ファイル、設定ファイル、サンプルHTML、ユーザーガイドが含まれています。
 - 開発環境の構築なしにすぐにテストできます。
+- Windows x64システムで動作します。
 
 ## 主な特徴
 
