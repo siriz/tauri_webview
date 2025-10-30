@@ -154,7 +154,7 @@ resizable=true         # Allow window resizing (true/false)
 
 [app]
 name=TauriWebview      # Application name (displayed in window title)
-version=0.1.0          # Version (displayed in window title)
+version=0.2.0          # Version (auto-updated with Git commit count during build)
 port=8000              # Web server port number (default: 8000)
 ```
 

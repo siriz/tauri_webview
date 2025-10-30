@@ -1,11 +1,11 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "TauriWebview",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "identifier": "com.siriz.tauriwebview",
   "build": {
-    "devUrl": "http://localhost:5173",
-    "frontendDist": "../../../build/dist/html"
+    "devUrl": "http://localhost:8000",
+    "frontendDist": "../../build/dist/html"
   },
   "app": {
     "withGlobalTauri": true,
@@ -14,7 +14,8 @@
         "title": "TauriWebview",
         "width": 800,
         "height": 600,
-        "url": "http://localhost:8000"
+        "url": "http://localhost:8000",
+        "dragDropEnabled": false
       }
     ],
     "security": {

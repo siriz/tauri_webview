@@ -1,13 +1,15 @@
 {
   "name": "tauriwebview",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "predev": "node scripts/copy-contents.js",
     "dev": "cd src-tauri && tauri dev",
-    "prebuild": "node scripts/copy-contents.js",
+    "prebuild": "node scripts/update-version.js && node scripts/copy-contents.js",
     "build": "cd src-tauri && tauri build && cd .. && node scripts/create-dist.js",
+    "postbuild": "node scripts/create-release-zip.js",
+    "release": "npm run build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch"

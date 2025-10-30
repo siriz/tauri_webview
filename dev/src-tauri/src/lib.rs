@@ -37,6 +37,9 @@ fn load_config() -> std::collections::HashMap<String, String> {
         if let Some(resizable) = config.get("window", "resizable") {
             settings.insert("resizable".to_string(), resizable);
         }
+        if let Some(center) = config.get("window", "center") {
+            settings.insert("center".to_string(), center);
+        }
         // Load app settings
         if let Some(name) = config.get("app", "name") {
             settings.insert("name".to_string(), name);
@@ -46,6 +49,9 @@ fn load_config() -> std::collections::HashMap<String, String> {
         }
         if let Some(port) = config.get("app", "port") {
             settings.insert("port".to_string(), port);
+        }
+        if let Some(single_instance) = config.get("app", "single_instance") {
+            settings.insert("single_instance".to_string(), single_instance);
         }
     }
     
@@ -156,8 +162,11 @@ pub fn run() {
     
     // 앱 이름과 버전 읽기
     let app_name = config.get("name").cloned().unwrap_or_else(|| "TauriWebview".to_string());
-    let app_version = config.get("version").cloned().unwrap_or_else(|| "0.1.0".to_string());
-    let window_title = format!("{} v{}", app_name, app_version);
+    
+    // 빌드 시 생성된 버전과 Git 해시 사용
+    let app_version = env!("APP_VERSION");
+    let git_hash = env!("GIT_HASH");
+    let window_title = format!("{} v{} ({})", app_name, app_version, git_hash);
     
     // exe 위치의 html 폴더 결정
     let exe_dir = std::env::current_exe()
@@ -169,23 +178,94 @@ pub fn run() {
     // 웹서버 시작 (별도 스레드)
     start_web_server(port, html_dir);
     
+    // single_instance 설정 확인
+    let use_single_instance = config
+        .get("single_instance")
+        .and_then(|s| s.parse::<bool>().ok())
+        .unwrap_or(true);
+    
     // Tauri 앱 시작
-    tauri::Builder::default()
+    let mut builder = tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![greet])
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build());
+    
+    // single instance 플러그인 조건부 추가
+    if use_single_instance {
+        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            // 이미 실행 중인 인스턴스가 있을 때 실행되는 콜백
+            println!("앱이 이미 실행 중입니다. 기존 창을 활성화합니다.");
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.unminimize();
+                let _ = window.set_focus();
+            }
+        }));
+    }
+    
+    builder.invoke_handler(tauri::generate_handler![greet])
         .setup(move |app| {
             use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, ShortcutState};
             
-            // 창 제목 설정
             if let Some(window) = app.get_webview_window("main") {
+                // 창 제목 설정
                 let _ = window.set_title(&window_title);
                 
-                // F11 전역 단축키 등록
-                let window_clone = window.clone();
-                let shortcut: Shortcut = "F11".parse().unwrap();
+                // config.ini에서 창 크기 및 위치 설정 적용
+                if let Some(width_str) = config.get("width") {
+                    if let Ok(width) = width_str.parse::<f64>() {
+                        if let Some(height_str) = config.get("height") {
+                            if let Ok(height) = height_str.parse::<f64>() {
+                                let _ = window.set_size(tauri::Size::Physical(tauri::PhysicalSize {
+                                    width: width as u32,
+                                    height: height as u32,
+                                }));
+                            }
+                        }
+                    }
+                }
                 
-                app.handle().global_shortcut().on_shortcut(shortcut, move |_app, _shortcut, event| {
+                // 창 위치 설정
+                let should_center = config.get("center")
+                    .and_then(|c| c.parse::<bool>().ok())
+                    .unwrap_or(false);
+                
+                if should_center {
+                    // 화면 중앙에 배치
+                    let _ = window.center();
+                } else {
+                    // x, y 좌표로 배치
+                    if let Some(x_str) = config.get("x") {
+                        if let Ok(x) = x_str.parse::<i32>() {
+                            if let Some(y_str) = config.get("y") {
+                                if let Ok(y) = y_str.parse::<i32>() {
+                                    let _ = window.set_position(tauri::Position::Physical(tauri::PhysicalPosition {
+                                        x,
+                                        y,
+                                    }));
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // always_on_top 설정
+                if let Some(always_on_top_str) = config.get("always_on_top") {
+                    if let Ok(always_on_top) = always_on_top_str.parse::<bool>() {
+                        let _ = window.set_always_on_top(always_on_top);
+                    }
+                }
+                
+                // resizable 설정
+                if let Some(resizable_str) = config.get("resizable") {
+                    if let Ok(resizable) = resizable_str.parse::<bool>() {
+                        let _ = window.set_resizable(resizable);
+                    }
+                }
+                
+                // F11 전역 단축키 등록 (전체화면)
+                let window_clone = window.clone();
+                let shortcut_f11: Shortcut = "F11".parse().unwrap();
+                
+                app.handle().global_shortcut().on_shortcut(shortcut_f11.clone(), move |_app, _shortcut, event| {
                     if event.state == ShortcutState::Pressed {
                         if let Ok(is_fullscreen) = window_clone.is_fullscreen() {
                             let _ = window_clone.set_fullscreen(!is_fullscreen);
@@ -193,7 +273,7 @@ pub fn run() {
                     }
                 });
                 
-                if let Err(e) = app.handle().global_shortcut().register(shortcut) {
+                if let Err(e) = app.handle().global_shortcut().register(shortcut_f11) {
                     eprintln!("Failed to register F11 shortcut: {}", e);
                 }
             }
