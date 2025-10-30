@@ -13,7 +13,7 @@ Tauri를 이용한 가벼운 데스크탑 애플리케이션으로, 임베디드
 
 빌드 없이 바로 테스트하고 싶으신가요?
 
-👉 **[GitHub Releases](https://github.com/siriz/tauri_webview/releases)**에서 최신 버전의 **`tauriwebview-v0.2.0-windows-x64.zip`**을 다운로드하여 압축 해제 후 `tauriwebview.exe`를 실행해보세요!
+👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)에서 최신 버전의 [**tauriwebview-v0.2.0-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)을 다운로드하여 압축 해제 후 `tauriwebview.exe`를 실행해보세요!
 
 - 압축 파일에는 실행 파일, 설정 파일, 샘플 HTML, 그리고 사용 가이드가 포함되어 있습니다.
 - 개발 환경 구축 없이 즉시 테스트할 수 있습니다.
