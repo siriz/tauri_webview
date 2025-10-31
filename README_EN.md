@@ -13,7 +13,7 @@ A lightweight desktop application using Tauri that displays HTML/CSS/JS files fr
 
 Want to test without building?
 
-👉 Download the latest [**tauriwebview-v0.2.0-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest) from [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases), extract it, and run `tauriwebview.exe`!
+👉 Download the latest [**tauriwebview-v0.2.16-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest) from [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases), extract it, and run `tauriwebview.exe`!
 
 - The package includes the executable, configuration file, sample HTML, and user guides.
 - You can test immediately without setting up a development environment.
@@ -107,7 +107,7 @@ TauriWebview/
 ├── README.md                        # Korean documentation for developers
 ├── README_EN.md                     # English documentation for developers
 ├── README_JA.md                     # Japanese documentation for developers
-└── tauriwebview-v0.2.0-windows-x64.zip  # Distribution package (~3MB)
+└── tauriwebview-v0.2.16-windows-x64.zip  # Distribution package (~3MB)
 ```
 
 ## Distribution
@@ -159,7 +159,7 @@ resizable=true         # Allow window resizing (true/false)
 
 [app]
 name=TauriWebview      # Application name (displayed in window title)
-version=0.2.0          # Version (auto-updated with Git commit count during build)
+version=0.2.16          # Version (auto-updated with Git commit count during build)
 port=8000              # Web server port number (default: 8000)
 ```
 

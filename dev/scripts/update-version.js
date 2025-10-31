@@ -28,14 +28,31 @@ function getGitHash() {
   }
 }
 
+// config.ini에서 메이저.마이너 버전 읽기
+function getBaseVersion() {
+  try {
+    const configPath = path.resolve(__dirname, '..', '..', 'config.ini');
+    const content = fs.readFileSync(configPath, 'utf-8');
+    const versionMatch = content.match(/^version=(\d+\.\d+)\.\d+/m);
+    if (versionMatch) {
+      return versionMatch[1]; // 예: "0.2"
+    }
+    return '0.1'; // 기본값
+  } catch (error) {
+    console.error('Failed to read base version from config.ini:', error.message);
+    return '0.1';
+  }
+}
+
 // 파일 내용에서 버전 패턴 치환
-function replaceVersion(content, newVersion) {
-  // 0.1.숫자 패턴을 모두 치환
-  return content.replace(/0\.1\.\d+/g, newVersion);
+function replaceVersion(content, newVersion, baseVersion) {
+  // 기존 버전 패턴을 모두 치환 (0.x.숫자 형식)
+  const versionPattern = new RegExp(`${baseVersion.replace('.', '\\.')}\\.\\d+`, 'g');
+  return content.replace(versionPattern, newVersion);
 }
 
 // 파일 업데이트
-function updateFile(filePath, newVersion) {
+function updateFile(filePath, newVersion, baseVersion) {
   try {
     const fullPath = path.resolve(__dirname, '..', '..', filePath);
     if (!fs.existsSync(fullPath)) {
@@ -47,7 +64,7 @@ function updateFile(filePath, newVersion) {
     const originalContent = content;
     
     // 버전 업데이트
-    content = replaceVersion(content, newVersion);
+    content = replaceVersion(content, newVersion, baseVersion);
     
     if (content !== originalContent) {
       fs.writeFileSync(fullPath, content, 'utf-8');
@@ -62,11 +79,13 @@ function updateFile(filePath, newVersion) {
 
 // 메인 실행
 function main() {
+  const baseVersion = getBaseVersion(); // config.ini에서 읽기 (예: "0.2")
   const commitCount = getCommitCount();
   const gitHash = getGitHash();
-  const newVersion = `0.1.${commitCount}`;
+  const newVersion = `${baseVersion}.${commitCount}`;
   
   console.log('\n🔧 버전 자동 업데이트 시작');
+  console.log(`📦 기본 버전: ${baseVersion}.x`);
   console.log(`📦 새 버전: ${newVersion} (${gitHash})`);
   console.log('━'.repeat(50));
   
@@ -94,7 +113,7 @@ function main() {
     'dev/readme/README_JA.txt'
   ];
   
-  filesToUpdate.forEach(file => updateFile(file, newVersion));
+  filesToUpdate.forEach(file => updateFile(file, newVersion, baseVersion));
   
   console.log('━'.repeat(50));
   console.log(`✨ 버전 업데이트 완료: ${newVersion}\n`);

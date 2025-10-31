@@ -13,7 +13,7 @@ Tauri를 이용한 가벼운 데스크탑 애플리케이션으로, 임베디드
 
 빌드 없이 바로 테스트하고 싶으신가요?
 
-👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)에서 최신 버전의 [**tauriwebview-v0.2.0-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)을 다운로드하여 압축 해제 후 `tauriwebview.exe`를 실행해보세요!
+👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)에서 최신 버전의 [**tauriwebview-v0.2.16-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)을 다운로드하여 압축 해제 후 `tauriwebview.exe`를 실행해보세요!
 
 - 압축 파일에는 실행 파일, 설정 파일, 샘플 HTML, 그리고 사용 가이드가 포함되어 있습니다.
 - 개발 환경 구축 없이 즉시 테스트할 수 있습니다.
@@ -110,7 +110,7 @@ TauriWebview/
 ├── README.md                        # 개발자용 한국어 문서
 ├── README_EN.md                     # 개발자용 영어 문서
 ├── README_JA.md                     # 개발자용 일본어 문서
-└── tauriwebview-v0.2.0-windows-x64.zip  # 배포용 압축 파일 (~3MB)
+└── tauriwebview-v0.2.16-windows-x64.zip  # 배포용 압축 파일 (~3MB)
 ```
 
 ## 배포
@@ -164,14 +164,14 @@ resizable=true         # 창 리사이즈 가능 여부
 
 [app]
 name=TauriWebview      # 애플리케이션 이름 (창 제목에 표시)
-version=0.2.0          # 버전 (빌드 시 자동으로 Git 커밋 카운트 기반 버전으로 업데이트)
+version=0.2.16          # 버전 (빌드 시 자동으로 Git 커밋 카운트 기반 버전으로 업데이트)
 port=8000              # 웹서버 포트 번호 (기본값: 8000)
 single_instance=true   # 단일 인스턴스 모드 (중복 실행 방지)
 ```
 
 **참고**: 
 - 창 제목은 `{name} v{version} ({git-hash})` 형식으로 표시됩니다
-- `version`은 빌드 시 자동으로 Git 커밋 카운트 기반 버전(예: 0.2.142)으로 업데이트됩니다
+- `version`은 빌드 시 자동으로 Git 커밋 카운트 기반 버전(예: 0.2.16)으로 업데이트됩니다
 
 ### 포트 변경 방법
 
@@ -181,7 +181,7 @@ single_instance=true   # 단일 인스턴스 모드 (중복 실행 방지)
 2. `[app]` 섹션의 `port` 값 변경 (예: `port=8080`)
 3. 애플리케이션 재시작
 
-## 새로운 기능 (v0.2.0)
+## 새로운 기능 (v0.2.16)
 
 ### 📁 Drag & Drop 지원
 

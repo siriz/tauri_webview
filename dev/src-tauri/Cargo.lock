@@ -3884,7 +3884,7 @@ dependencies = [
 
 [[package]]
 name = "tauriwebview"
-version = "0.2.0"
+version = "0.2.16"
 dependencies = [
  "chrono",
  "configparser",

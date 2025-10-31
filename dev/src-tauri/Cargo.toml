@@ -1,6 +1,6 @@
 [package]
 name = "tauriwebview"
-version = "0.2.0"
+version = "0.2.16"
 description = "A lightweight desktop application using Tauri"
 authors = ["Developer"]
 edition = "2021"

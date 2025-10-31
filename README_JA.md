@@ -13,7 +13,7 @@ Tauriを使用して、埋め込みWebサーバーを通じて`html/`フォル�
 
 ビルドせずにすぐテストしたいですか？
 
-👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)から最新の[**tauriwebview-v0.2.0-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)をダウンロードして解凍後、`tauriwebview.exe`を実行してください！
+👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)から最新の[**tauriwebview-v0.2.16-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)をダウンロードして解凍後、`tauriwebview.exe`を実行してください！
 
 - パッケージには実行ファイル、設定ファイル、サンプルHTML、ユーザーガイドが含まれています。
 - 開発環境の構築なしにすぐにテストできます。
@@ -107,7 +107,7 @@ TauriWebview/
 ├── README.md                        # 開発者向け韓国語ドキュメント
 ├── README_EN.md                     # 開発者向け英語ドキュメント
 ├── README_JA.md                     # 開発者向け日本語ドキュメント
-└── tauriwebview-v0.2.0-windows-x64.zip  # 配布用圧縮ファイル (~3MB)
+└── tauriwebview-v0.2.16-windows-x64.zip  # 配布用圧縮ファイル (~3MB)
 ```
 
 ## 配布
@@ -159,7 +159,7 @@ resizable=true         # ウィンドウをリサイズ可能 (true/false)
 
 [app]
 name=TauriWebview      # アプリケーション名（ウィンドウタイトルに表示）
-version=0.2.0          # バージョン（ビルド時にGitコミット数に基づいて自動更新）
+version=0.2.16          # バージョン（ビルド時にGitコミット数に基づいて自動更新）
 port=8000              # Webサーバーポート番号 (デフォルト: 8000)
 ```
 
