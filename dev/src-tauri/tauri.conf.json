@@ -9,15 +9,7 @@
   },
   "app": {
     "withGlobalTauri": true,
-    "windows": [
-      {
-        "title": "TauriWebview",
-        "width": 800,
-        "height": 600,
-        "url": "http://localhost:8000",
-        "dragDropEnabled": false
-      }
-    ],
+    "windows": [],
     "security": {
       "csp": null
     }

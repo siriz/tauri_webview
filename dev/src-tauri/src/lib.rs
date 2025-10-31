@@ -204,78 +204,85 @@ pub fn run() {
     builder.invoke_handler(tauri::generate_handler![greet])
         .setup(move |app| {
             use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, ShortcutState};
+            use tauri::WebviewWindowBuilder;
+            use tauri::WebviewUrl;
             
-            if let Some(window) = app.get_webview_window("main") {
-                // 창 제목 설정
-                let _ = window.set_title(&window_title);
-                
-                // config.ini에서 창 크기 및 위치 설정 적용
-                if let Some(width_str) = config.get("width") {
-                    if let Ok(width) = width_str.parse::<f64>() {
-                        if let Some(height_str) = config.get("height") {
-                            if let Ok(height) = height_str.parse::<f64>() {
-                                let _ = window.set_size(tauri::Size::Physical(tauri::PhysicalSize {
-                                    width: width as u32,
-                                    height: height as u32,
+            // 동적 URL 생성
+            let webview_url = format!("http://localhost:{}", port);
+            
+            // 창 생성 (drag_drop_enabled는 tauri.conf.json에서 설정됨)
+            let window = WebviewWindowBuilder::new(app, "main", WebviewUrl::External(webview_url.parse().unwrap()))
+                .title(&window_title)
+                .inner_size(800.0, 600.0)
+                .build()
+                .expect("Failed to create window");
+            
+            // config.ini에서 창 크기 및 위치 설정 적용
+            if let Some(width_str) = config.get("width") {
+                if let Ok(width) = width_str.parse::<f64>() {
+                    if let Some(height_str) = config.get("height") {
+                        if let Ok(height) = height_str.parse::<f64>() {
+                            let _ = window.set_size(tauri::Size::Physical(tauri::PhysicalSize {
+                                width: width as u32,
+                                height: height as u32,
+                            }));
+                        }
+                    }
+                }
+            }
+            
+            // 창 위치 설정
+            let should_center = config.get("center")
+                .and_then(|c| c.parse::<bool>().ok())
+                .unwrap_or(false);
+            
+            if should_center {
+                // 화면 중앙에 배치
+                let _ = window.center();
+            } else {
+                // x, y 좌표로 배치
+                if let Some(x_str) = config.get("x") {
+                    if let Ok(x) = x_str.parse::<i32>() {
+                        if let Some(y_str) = config.get("y") {
+                            if let Ok(y) = y_str.parse::<i32>() {
+                                let _ = window.set_position(tauri::Position::Physical(tauri::PhysicalPosition {
+                                    x,
+                                    y,
                                 }));
                             }
                         }
                     }
                 }
-                
-                // 창 위치 설정
-                let should_center = config.get("center")
-                    .and_then(|c| c.parse::<bool>().ok())
-                    .unwrap_or(false);
-                
-                if should_center {
-                    // 화면 중앙에 배치
-                    let _ = window.center();
-                } else {
-                    // x, y 좌표로 배치
-                    if let Some(x_str) = config.get("x") {
-                        if let Ok(x) = x_str.parse::<i32>() {
-                            if let Some(y_str) = config.get("y") {
-                                if let Ok(y) = y_str.parse::<i32>() {
-                                    let _ = window.set_position(tauri::Position::Physical(tauri::PhysicalPosition {
-                                        x,
-                                        y,
-                                    }));
-                                }
-                            }
-                        }
+            }
+            
+            // always_on_top 설정
+            if let Some(always_on_top_str) = config.get("always_on_top") {
+                if let Ok(always_on_top) = always_on_top_str.parse::<bool>() {
+                    let _ = window.set_always_on_top(always_on_top);
+                }
+            }
+            
+            // resizable 설정
+            if let Some(resizable_str) = config.get("resizable") {
+                if let Ok(resizable) = resizable_str.parse::<bool>() {
+                    let _ = window.set_resizable(resizable);
+                }
+            }
+            
+            // F11 전역 단축키 등록 (전체화면)
+            let window_clone = window.clone();
+            let shortcut_f11: Shortcut = "F11".parse().unwrap();
+            
+            app.handle().global_shortcut().on_shortcut(shortcut_f11.clone(), move |_app, _shortcut, event| {
+                if event.state == ShortcutState::Pressed {
+                    if let Ok(is_fullscreen) = window_clone.is_fullscreen() {
+                        let _ = window_clone.set_fullscreen(!is_fullscreen);
                     }
                 }
-                
-                // always_on_top 설정
-                if let Some(always_on_top_str) = config.get("always_on_top") {
-                    if let Ok(always_on_top) = always_on_top_str.parse::<bool>() {
-                        let _ = window.set_always_on_top(always_on_top);
-                    }
-                }
-                
-                // resizable 설정
-                if let Some(resizable_str) = config.get("resizable") {
-                    if let Ok(resizable) = resizable_str.parse::<bool>() {
-                        let _ = window.set_resizable(resizable);
-                    }
-                }
-                
-                // F11 전역 단축키 등록 (전체화면)
-                let window_clone = window.clone();
-                let shortcut_f11: Shortcut = "F11".parse().unwrap();
-                
-                app.handle().global_shortcut().on_shortcut(shortcut_f11.clone(), move |_app, _shortcut, event| {
-                    if event.state == ShortcutState::Pressed {
-                        if let Ok(is_fullscreen) = window_clone.is_fullscreen() {
-                            let _ = window_clone.set_fullscreen(!is_fullscreen);
-                        }
-                    }
-                });
-                
-                if let Err(e) = app.handle().global_shortcut().register(shortcut_f11) {
-                    eprintln!("Failed to register F11 shortcut: {}", e);
-                }
+            });
+            
+            if let Err(e) = app.handle().global_shortcut().register(shortcut_f11) {
+                eprintln!("Failed to register F11 shortcut: {}", e);
             }
             Ok(())
         })
