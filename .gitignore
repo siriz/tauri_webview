@@ -3,8 +3,9 @@ build/
 !build/dist/
 dev/src-tauri/target/
 
-# Distribution zip files with version are kept in root for GitHub Release
-!tauriwebview-v*-windows-x64.zip
+# Distribution zip files (excluded from Git, uploaded to GitHub Releases)
+tauriwebview-v*-windows-x64.zip
+*.zip
 
 # Build cache and temporary files
 .cargo-lock

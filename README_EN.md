@@ -13,11 +13,12 @@ A lightweight desktop application using Tauri that displays HTML/CSS/JS files fr
 
 Want to test without building?
 
-👉 Download the latest [**tauriwebview-v0.2.16-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest) from [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases), extract it, and run `tauriwebview.exe`!
+👉 Download the latest **`tauriwebview-v{version}-windows-x64.zip`** from [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases/latest), extract it, and run `tauriwebview.exe`!
 
 - The package includes the executable, configuration file, sample HTML, and user guides.
 - You can test immediately without setting up a development environment.
 - Works on Windows x64 systems.
+- Always check the [latest release](https://github.com/siriz/tauri_webview/releases/latest) for updates.
 
 ## Key Features
 
@@ -172,6 +173,27 @@ If port conflict occurs with other applications:
 1. Open `config.ini` file in a text editor
 2. Change `port` value in `[app]` section (e.g., `port=8080`)
 3. Restart the application
+
+## Latest Updates (v0.2.16)
+
+### ⚡ Dynamic Port Configuration
+- Port number changes in `config.ini` are applied immediately
+- Easy resolution of port conflicts with other applications
+- Flexible configuration by removing hardcoded URLs
+
+### 📦 Git Repository Optimization
+- Build artifacts (zip files) excluded from Git repository
+- Distribution files managed through GitHub Releases
+- README always links to the latest release automatically
+
+### 🔢 Flexible Version Management
+- Set major/minor version directly in `config.ini`
+- Patch version auto-generated from Git commit count
+- Version format: `{major}.{minor}.{commits}` (e.g., 0.2.16)
+
+### 🎨 Minimized Initial UI
+- Initial window title minimized for clean start
+- Immediately changes to custom title after config.ini loads
 
 ## Icon Customization
 

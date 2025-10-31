@@ -13,11 +13,12 @@ Tauri를 이용한 가벼운 데스크탑 애플리케이션으로, 임베디드
 
 빌드 없이 바로 테스트하고 싶으신가요?
 
-👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)에서 최신 버전의 [**tauriwebview-v0.2.16-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)을 다운로드하여 압축 해제 후 `tauriwebview.exe`를 실행해보세요!
+👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases/latest)에서 최신 버전의 **`tauriwebview-v{version}-windows-x64.zip`** 파일을 다운로드하여 압축 해제 후 `tauriwebview.exe`를 실행해보세요!
 
 - 압축 파일에는 실행 파일, 설정 파일, 샘플 HTML, 그리고 사용 가이드가 포함되어 있습니다.
 - 개발 환경 구축 없이 즉시 테스트할 수 있습니다.
 - Windows x64 시스템에서 동작합니다.
+- 항상 [최신 릴리스](https://github.com/siriz/tauri_webview/releases/latest)를 확인하세요.
 
 ## 주요 특징
 
@@ -181,7 +182,26 @@ single_instance=true   # 단일 인스턴스 모드 (중복 실행 방지)
 2. `[app]` 섹션의 `port` 값 변경 (예: `port=8080`)
 3. 애플리케이션 재시작
 
-## 새로운 기능 (v0.2.16)
+## 최신 업데이트 (v0.2.16)
+
+### ⚡ 동적 포트 설정
+- `config.ini`에서 포트 번호를 변경하면 즉시 적용됨
+- 다른 애플리케이션과 포트 충돌 시 쉽게 해결
+- 하드코딩된 URL 제거로 유연한 설정 가능
+
+### 📦 Git 저장소 최적화
+- 빌드 결과물(zip 파일)을 Git 저장소에서 제외
+- GitHub Releases를 통해 배포 파일 관리
+- README에서 항상 최신 릴리스로 자동 링크
+
+### 🔢 유연한 버전 관리
+- `config.ini`에서 메이저/마이너 버전 직접 설정 가능
+- Git 커밋 카운트로 패치 버전 자동 생성
+- 버전 형식: `{major}.{minor}.{commits}` (예: 0.2.16)
+
+### 🎨 최소화된 초기 UI
+- 초기 창 제목을 최소화하여 깔끔한 시작
+- config.ini 로드 후 즉시 사용자 정의 제목으로 변경
 
 ### 📁 Drag & Drop 지원
 
@@ -213,13 +233,6 @@ dropzone.addEventListener('drop', (e) => {
 `config.ini`에서 `center=true`로 설정하면:
 - 애플리케이션이 자동으로 화면 중앙에 배치됨
 - `x`, `y` 좌표 설정 불필요
-
-### 🔢 자동 버전 관리
-
-빌드 시 Git 커밋 카운트를 기반으로 버전이 자동 생성됩니다:
-- 버전 형식: `0.2.{커밋수}`
-- 창 제목에 Git 해시도 함께 표시
-- 모든 설정 파일의 버전이 자동으로 동기화
 
 ## 아이콘 커스터마이징
 

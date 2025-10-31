@@ -13,11 +13,12 @@ Tauriを使用して、埋め込みWebサーバーを通じて`html/`フォル�
 
 ビルドせずにすぐテストしたいですか？
 
-👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases)から最新の[**tauriwebview-v0.2.16-windows-x64.zip**](https://github.com/siriz/tauri_webview/releases/latest)をダウンロードして解凍後、`tauriwebview.exe`を実行してください！
+👉 [**GitHub Releases**](https://github.com/siriz/tauri_webview/releases/latest)から最新の**`tauriwebview-v{version}-windows-x64.zip`**ファイルをダウンロードして解凍後、`tauriwebview.exe`を実行してください！
 
 - パッケージには実行ファイル、設定ファイル、サンプルHTML、ユーザーガイドが含まれています。
 - 開発環境の構築なしにすぐにテストできます。
 - Windows x64システムで動作します。
+- 常に[最新リリース](https://github.com/siriz/tauri_webview/releases/latest)を確認してください。
 
 ## 主な特徴
 
@@ -172,6 +173,27 @@ port=8000              # Webサーバーポート番号 (デフォルト: 8000)
 1. `config.ini`ファイルをテキストエディタで開く
 2. `[app]`セクションの`port`値を変更 (例: `port=8080`)
 3. アプリケーションを再起動
+
+## 最新アップデート (v0.2.16)
+
+### ⚡ 動的ポート設定
+- `config.ini`でポート番号を変更すると即座に適用
+- 他のアプリケーションとのポート競合時に簡単に解決
+- ハードコードされたURLを削除し、柔軟な設定が可能
+
+### 📦 Gitリポジトリの最適化
+- ビルド成果物(zipファイル)をGitリポジトリから除外
+- GitHub Releasesを通じて配布ファイルを管理
+- READMEで常に最新リリースに自動リンク
+
+### 🔢 柔軟なバージョン管理
+- `config.ini`でメジャー/マイナーバージョンを直接設定可能
+- Gitコミット数からパッチバージョンを自動生成
+- バージョン形式: `{major}.{minor}.{commits}` (例: 0.2.16)
+
+### 🎨 最小化された初期UI
+- 初期ウィンドウタイトルを最小化してクリーンな起動
+- config.ini読み込み後、すぐにカスタムタイトルに変更
 
 ## アイコンのカスタマイズ
 
